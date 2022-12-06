@@ -34,6 +34,10 @@ dependencies:
   image_picker: ^0.8.4+9
   provider: ^6.0.0
   dartz: ^0.10.1
+  intl: 0.17.0
+  font_awesome_flutter: 10.1.0
+  fluttericon: ^2.0.0
+  http: 0.13.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -65,6 +69,11 @@ flutter:
     - assets/user.png
     - assets/add.png
     - assets/remove.png
+    - assets/horror.png
+    - assets/crime.png
+    - assets/action.png
+    - assets/drama.png
+    - assets/wallet.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

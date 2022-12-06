@@ -143,6 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SizedBox(height: 16,),
               TextFormField(
+                obscureText: true,
                 controller: passwordController,
                 focusNode: passwordFocusNode,
                 onTap: (){
@@ -166,6 +167,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SizedBox(height: 16,),
               TextFormField(
+                obscureText: true,
                 controller: confirmPasswordController,
                 focusNode: confirmPasswordFocusNode,
                 onTap: (){
@@ -237,11 +239,14 @@ class _SignUpPageState extends State<SignUpPage> {
                             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 78),
                           ));
                         }
+                        User user = new User(name: nameController.text, email: emailController.text, password: passwordController.text, photoProfile: imageFile);
+
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectFavGenresPage(userData:user)));
                       }
                       else{
-                        User user = new User(name: nameController.text, email: emailController.text, password: passwordController.text);
+                        User user = new User(name: nameController.text, email: emailController.text, password: passwordController.text, photoProfile: imageFile);
 
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectFavGenresPage(userData: [imageFile,user])));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SelectFavGenresPage(userData:user)));
                       }
                     },
                     child: CircleAvatar(

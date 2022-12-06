@@ -6,8 +6,10 @@ import 'package:flutix_app/model/TypeModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/User.dart';
+
 class SelectFavGenresPage extends StatefulWidget {
-  final List? userData; //untuk passing data user
+  final User? userData; //untuk passing data user
   const SelectFavGenresPage({Key? key, this.userData}) : super(key: key);
 
   @override
@@ -134,7 +136,26 @@ class _SelectFavGenresPageState extends State<SelectFavGenresPage> {
                 children: [
                   InkWell(
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmNewAccountPage(userData: widget.userData)));
+                      bool next = false;
+                      int totalSelectedGenres = 0;
+                      for(var i = 0; i<genres.length; i++){
+                        if(genres[i].isSelected){
+                          totalSelectedGenres += 1;
+                        }
+                      }
+                      if(totalSelectedGenres == 4){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmNewAccountPage(userData: widget.userData)));
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Please select 4 genres'),
+                          elevation: 0,
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color(0XFFFE5981),
+                          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 78),
+                        ));
+                      }
                     },
                     child: CircleAvatar(
                       backgroundColor: Color(0XFF4F3E9C),

@@ -1,9 +1,12 @@
+import 'package:flutix_app/feature/main_menu/view/MainMenuPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import '../../../model/User.dart';
+
 class ConfirmNewAccountPage extends StatefulWidget {
-  final List? userData; //untuk passing data user
+  final User? userData; //untuk passing data user
   const ConfirmNewAccountPage({Key? key, this.userData}) : super(key: key);
 
   @override
@@ -34,8 +37,8 @@ class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
             child: Column(
               children: [
                 SizedBox(height: 20,),
-                widget.userData![0] != null ? //isi userData ke 0 = foto, yg ke 1 = datalogin ==> lihat di signUp.dart line 193
-                CircleAvatar(backgroundImage: FileImage( widget.userData![0]), radius: 80.0,)
+                widget.userData!.photoProfile != null ?
+                CircleAvatar(backgroundImage: FileImage( widget.userData!.photoProfile!), radius: 80.0,)
                     :
                 Image.asset(
                   'assets/user.png',
@@ -44,11 +47,11 @@ class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
                 SizedBox(height: 20,),
                 Text('Welcome', style: TextStyle(color: Color(0XFF262626), fontWeight: FontWeight.w300, fontSize: 16)),
                 SizedBox(height: 4,),
-                Text('${widget.userData![1].name}', style: TextStyle(color: Color(0XFF262626), fontWeight: FontWeight.w400, fontSize: 20)),
+                Text('${widget.userData!.name}', style: TextStyle(color: Color(0XFF262626), fontWeight: FontWeight.w400, fontSize: 20)),
                 SizedBox(height: 120,),
                 RawMaterialButton(
                   onPressed: (){
-                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignUpPage()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.userData!)));
                   },
                   constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width, minHeight: 50),
                   shape: RoundedRectangleBorder(
