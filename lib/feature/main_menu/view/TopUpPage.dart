@@ -1,10 +1,17 @@
+import 'package:flutix_app/feature/main_menu/view/ConfirmTopUpPage.dart';
+import 'package:flutix_app/model/HistoryTransactions.dart';
 import 'package:flutix_app/model/TopUpModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../model/User.dart';
+
 class TopUpPage extends StatefulWidget {
-  const TopUpPage({Key? key}) : super(key: key);
+  final User user;
+  final double saldo;
+  final List<HistoryTransactions> historyTransactions;
+  const TopUpPage({Key? key, required this.user, required this.saldo, required this.historyTransactions}) : super(key: key);
 
   @override
   State<TopUpPage> createState() => _TopUpPageState();
@@ -17,7 +24,6 @@ class _TopUpPageState extends State<TopUpPage> {
     return NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0)
         .format(amount);
   }
-
 
   List<TopUpModel> nominals = [
     TopUpModel(nominal: 50000, isSelected: false),
@@ -113,7 +119,16 @@ class _TopUpPageState extends State<TopUpPage> {
                         selectedNominal = nominals[i].nominal!.toDouble();
                       }
                     }
-                    Navigator.pop(context, selectedNominal);
+                    widget.historyTransactions.add(
+                        HistoryTransactions(
+                          name: "Top Up Wallet",
+                          nominal: selectedNominal,
+                          description: DateTime.now().toIso8601String(),
+                          type: "topup"
+                        )
+                    );
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmTopUpPage(user: widget.user, newSaldoTotal: selectedNominal + widget.saldo, newHistoryTransactions: widget.historyTransactions,)));
+                    // Navigator.pop(context, selectedNominal);
                   },
                   constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width *0.5, minHeight: 50),
                   shape: RoundedRectangleBorder(

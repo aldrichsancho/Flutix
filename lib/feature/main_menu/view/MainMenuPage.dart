@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutix_app/feature/main_menu/view/TopUpPage.dart';
 import 'package:flutix_app/model/CategoryModel.dart';
+import 'package:flutix_app/model/HistoryTransactions.dart';
 import 'package:flutix_app/model/MovieModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,13 @@ import 'package:http/http.dart' as http;
 
 import '../../../model/User.dart';
 import '../../../model/VoucherModel.dart';
+import '../../my_wallet/MyWalletPage.dart';
 
 class MainMenuPage extends StatefulWidget {
   final User user;
-  const MainMenuPage({Key? key, required this.user}) : super(key: key);
+  final double? newSaldo;
+  final List<HistoryTransactions>? newHistoryTransactions;
+  const MainMenuPage({Key? key, required this.user, this.newSaldo, this.newHistoryTransactions}) : super(key: key);
 
   @override
   State<MainMenuPage> createState() => _MainMenuPageState();
@@ -42,8 +46,18 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
   ];
   List<MovieModel> movies = [];
   List<MovieModel> comingSoonmovies = [];
+
+  List<HistoryTransactions> history = [];
   @override
   void initState() {
+    if(widget.newSaldo != null){
+     saldo = widget.newSaldo!;
+    }
+    if(widget.newHistoryTransactions != null){
+      for (var element in widget.newHistoryTransactions!) {
+        history.add(element);
+      }
+    }
     getDataMovieAPI();
     super.initState();
 
@@ -139,7 +153,12 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
                       children: [
                         Text('${widget.user.name}', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),),
                         SizedBox(height: 4,),
-                        Text('IDR ${moneyFormat(saldo)}', style: TextStyle(color: Color(0XFFFBD361), fontSize: 15, fontWeight: FontWeight.w400),)
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyWalletPage(user: widget.user, saldo: saldo,historyTransactions: history,)));
+                          },
+                          child: Text('IDR ${moneyFormat(saldo)}', style: TextStyle(color: Color(0XFFFBD361), fontSize: 15, fontWeight: FontWeight.w400),)
+                        )
                       ],
                     )
                   ],
@@ -406,16 +425,8 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              //ini pakai async await untuk nunggu dlu hasil return dari TopUpPage, lalu dicek apakah null atau tidak
-              //kalau tidak null (terdapat nominal topup/ melakukan topup) maka saldo akan bertambah
-              //result berupa double
-              var result = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopUpPage()));
-              if(result != null){
-                setState(() {
-                  saldo += result;
-                });
-              }
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopUpPage(user: widget.user, saldo: saldo,historyTransactions: history)));
             },
             backgroundColor: Color(0XFFF8D560),
             child:Image.asset('assets/wallet.png', height: 120, ),
