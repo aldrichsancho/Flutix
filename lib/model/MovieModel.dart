@@ -1,3 +1,6 @@
+import 'package:flutix_app/model/GenreModel.dart';
+import 'package:flutix_app/model/SpokenLanguages.dart';
+
 class MovieModel {
   String? backdropPath;
   int? id;
@@ -9,6 +12,8 @@ class MovieModel {
   String? releaseDate;
   double? voteAverage;
   List<int>? genreIds;
+  List<GenreModel>? genres = [];
+  List<SpokenLanguage>? lang = [];
 
   MovieModel(
       {this.backdropPath,
@@ -20,7 +25,10 @@ class MovieModel {
         this.posterPath,
         this.releaseDate,
         this.voteAverage,
-        this.genreIds});
+        this.genreIds,
+        this.genres,
+        this.lang
+      });
 
   MovieModel.fromJson(Map<String, dynamic> json) {
     backdropPath = json['backdrop_path'];

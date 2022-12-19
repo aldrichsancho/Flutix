@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutix_app/feature/book_movie/DetailMoviePage.dart';
 import 'package:flutix_app/feature/main_menu/view/TopUpPage.dart';
 import 'package:flutix_app/model/CategoryModel.dart';
 import 'package:flutix_app/model/HistoryTransactions.dart';
@@ -182,67 +183,73 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
                               scrollDirection: Axis.horizontal,
                               itemCount: movies.length,
                               itemBuilder: (context, i){
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
-                                  child: Stack(
-                                    children: [
+                                return InkWell(
+                                  onTap: (){
+                                    var a = movies[i];
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailMoviePage(movie: movies[i], saldo: saldo,)));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 20.0),
+                                    child: Stack(
+                                      children: [
 
-                                      Container(
-                                        width: 220,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12),
-                                            image: DecorationImage(
-                                              image: NetworkImage("http://image.tmdb.org/t/p/w500${movies[i].posterPath}"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: <Color>[
-                                                  Colors.black.withOpacity(0),
-                                                  Colors.black.withOpacity(0.2)
-                                                ])
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 220,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12),
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: <Color>[
-                                                  Colors.black.withOpacity(0),
-                                                  Colors.black.withOpacity(0.9)
-                                                ])
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text('${movies[i].title}', style: TextStyle(color: Colors.white)),
-                                              Row(
-                                                children: [
-                                                  Row(
-                                                    children: getStar(movies[i]), //karena return dari fungsi sudah list maka tidak perlu tnda []
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      SizedBox(width: 3,),
-                                                      Text('${movies[i].voteAverage!.toStringAsFixed(1)}/10', style: TextStyle(color: Colors.white),)
-
-                                                    ],
-                                                  )
-                                                ],
+                                        Container(
+                                          width: 220,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(12),
+                                              image: DecorationImage(
+                                                image: NetworkImage("http://image.tmdb.org/t/p/w500${movies[i].posterPath}"),
+                                                fit: BoxFit.cover,
                                               ),
-
-                                            ],
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: <Color>[
+                                                    Colors.black.withOpacity(0),
+                                                    Colors.black.withOpacity(0.2)
+                                                  ])
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Container(
+                                          width: 220,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(12),
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: <Color>[
+                                                    Colors.black.withOpacity(0),
+                                                    Colors.black.withOpacity(0.9)
+                                                  ])
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('${movies[i].title}', style: TextStyle(color: Colors.white)),
+                                                Row(
+                                                  children: [
+                                                    Row(
+                                                      children: getStar(movies[i]), //karena return dari fungsi sudah list maka tidak perlu tnda []
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(width: 3,),
+                                                        Text('${movies[i].voteAverage!.toStringAsFixed(1)}/10', style: TextStyle(color: Colors.white),)
+
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               }
