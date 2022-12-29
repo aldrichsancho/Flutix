@@ -32,12 +32,12 @@ dependencies:
   email_validator: '^2.1.2'
   flutter_svg: ^1.0.0
   image_picker: ^0.8.4+9
-  provider: ^6.0.0
-  dartz: ^0.10.1
   intl: 0.17.0
   font_awesome_flutter: 10.1.0
   fluttericon: ^2.0.0
   http: 0.13.3
+  dartz: ^0.10.1
+  double_back_to_close_app: ^2.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -75,6 +75,16 @@ flutter:
     - assets/drama.png
     - assets/wallet.png
     - assets/check.svg
+    - assets/successBook.jpeg
+    - assets/successTopUp.jpeg
+    - assets/barcode.png
+    - assets/user.svg
+    - assets/wallet.svg
+    - assets/translate.svg
+    - assets/helpCentre.svg
+    - assets/like.svg
+    - assets/logout.svg
+    - assets/warning.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

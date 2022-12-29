@@ -8,13 +8,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../model/BookedMovieModel.dart';
 import '../../model/DetailMovieModel.dart';
+import '../../model/HistoryTransactions.dart';
 import '../../model/SpokenLanguages.dart';
+import '../../model/User.dart';
 
 class DetailMoviePage extends StatefulWidget {
+  final TabController tabController;
+  final User user;
   final MovieModel movie;
   final double saldo;
-  const DetailMoviePage({Key? key, required this.movie, required this.saldo}) : super(key: key);
+  final List<BookedMovieModel> bookedMovieHistory;
+  final List<HistoryTransactions> historyTransaction;
+  const DetailMoviePage({Key? key, required this.movie, required this.saldo, required this.user, required this.tabController, required this.bookedMovieHistory, required this.historyTransaction}) : super(key: key);
 
   @override
   State<DetailMoviePage> createState() => _DetailMoviePageState();
@@ -26,6 +33,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
   @override
   void initState() {
     getDataDetailMovieAPI();
+
     super.initState();
 
   }
@@ -242,7 +250,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               children: [
                 RawMaterialButton(
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChooseVenuePage(movie: widget.movie, saldo: widget.saldo,)));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChooseVenuePage(user: widget.user, movie: widget.movie, saldo: widget.saldo, tabController: widget.tabController, bookedMovieHistory: widget.bookedMovieHistory, historyTransaction: widget.historyTransaction,)));
                   },
                   constraints: BoxConstraints(minWidth: 220, minHeight: 40),
                   shape: RoundedRectangleBorder(

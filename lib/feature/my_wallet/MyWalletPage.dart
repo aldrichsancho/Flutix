@@ -86,7 +86,7 @@ class _MyWalletPageState extends State<MyWalletPage> {
                               Text('Card Holder', style: TextStyle(color: Color(0XFFEEE5FF),fontWeight: FontWeight.w400, fontSize: 10),),
                               Row(
                                 children: [
-                                  Text('Nama', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400, fontSize: 12),),
+                                  Text('${widget.user.name}', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400, fontSize: 12),),
                                   SizedBox(width: 4,),
                                   SvgPicture.asset('assets/check.svg',height: 18,),
                                 ],
@@ -123,6 +123,18 @@ class _MyWalletPageState extends State<MyWalletPage> {
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: Row(
                   children: [
+                    widget.historyTransactions[i].photo != null ?
+                    Container(
+                      height: 100,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: NetworkImage("http://image.tmdb.org/t/p/w500${widget.historyTransactions[i].photo}"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ):
                     Container(
                       height: 100,
                       decoration: BoxDecoration(
@@ -158,9 +170,12 @@ class _MyWalletPageState extends State<MyWalletPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${widget.historyTransactions[i].name}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),),
+                        Container(
+                          width: 250,
+                            child: Text('${widget.historyTransactions[i].name}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),)
+                        ),
                         SizedBox(height: 6,),
-                        Text('IDR ${moneyFormat(widget.historyTransactions[i].nominal!)}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: Colors.teal),),
+                        Text('IDR ${moneyFormat(widget.historyTransactions[i].nominal!)}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: widget.historyTransactions[i].type == "movie" ? Colors.red : Colors.teal),),
                         SizedBox(height: 6,),
                         Text('${widget.historyTransactions[i].description}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.grey),)
                       ],

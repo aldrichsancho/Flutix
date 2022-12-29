@@ -51,7 +51,7 @@ class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
                 SizedBox(height: 120,),
                 RawMaterialButton(
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.userData!)));
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.userData!)), (route) => false);
                   },
                   constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width, minHeight: 50),
                   shape: RoundedRectangleBorder(

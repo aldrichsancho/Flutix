@@ -28,6 +28,12 @@ class _ConfirmTopUpPageState extends State<ConfirmTopUpPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                'assets/successTopUp.jpeg',
+                height: 110,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 60,),
               Text('Emmm Yummy!', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),),
               SizedBox(height: 20,),
               Text('You have successfully \ntop up the wallet',textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),),
@@ -49,7 +55,7 @@ class _ConfirmTopUpPageState extends State<ConfirmTopUpPage> {
                   SizedBox(width: 8),
                   InkWell(
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.user, newSaldo: widget.newSaldoTotal,newHistoryTransactions: widget.newHistoryTransactions,)));
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.user, newSaldo: widget.newSaldoTotal,newHistoryTransactions: widget.newHistoryTransactions,)),(route) => false);
                     },
                     child: Text('Back to Home', style: TextStyle(color: Color(0XFF382A75), fontWeight: FontWeight.w300, fontSize: 14))
                   )
