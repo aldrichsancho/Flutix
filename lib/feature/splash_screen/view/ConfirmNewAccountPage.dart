@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutix_app/feature/main_menu/view/MainMenuPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 import '../../../model/User.dart';
@@ -14,6 +17,14 @@ class ConfirmNewAccountPage extends StatefulWidget {
 }
 
 class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
+
+  createSaveUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', widget.userData!.name!);
+    prefs.setString('email', widget.userData!.email!);
+    prefs.setString('password', widget.userData!.password!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +62,7 @@ class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
                 SizedBox(height: 120,),
                 RawMaterialButton(
                   onPressed: (){
+                    createSaveUser();
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainMenuPage(user: widget.userData!)), (route) => false);
                   },
                   constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width, minHeight: 50),

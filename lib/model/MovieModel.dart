@@ -41,6 +41,7 @@ class MovieModel {
     releaseDate = json['release_date'];
     voteAverage = json['vote_average'].runtimeType != double ? json['vote_average'].toDouble() : json['vote_average'];
     genreIds = json['genre_ids'].cast<int>();
+
   }
 
   Map<String, dynamic> toJson() {

@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../model/User.dart';
 import '../../../model/VoucherModel.dart';
@@ -81,7 +82,28 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
     else{
       widget.tabController!.animateTo(1);
     }
+
+    saveData();
     super.initState();
+
+  }
+
+  saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('saldo', '${saldo}');
+
+
+    List<String> historyTransactions = [];
+    history.forEach((element) {
+      historyTransactions.add(json.encode(element)); //ubah model menjadi bentuk string agar bisa disimpan
+    });
+    // List<String> bookedMovies = [];
+    // bookedMovieHistory.forEach((element) {
+    //   bookedMovies.add(json.encode(element)); //ubah model menjadi bentuk string agar bisa disimpan
+    // });
+    //
+    prefs.setStringList('historyTrn', historyTransactions);
+    // prefs.setStringList('bookedMovies',bookedMovies);
 
   }
 
@@ -97,7 +119,6 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
     else{
       print(response.body);
     }
-    setState(() { });
 
     final responseComingSoon = await http.get(Uri.parse('https://api.themoviedb.org/3/movie/upcoming?api_key=d3c370e7fe51dfcd86bd698f8a3b8b32&language=en-US&page=1'));
     if(responseComingSoon.statusCode == 200){
@@ -110,7 +131,10 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
     else{
       print(response.body);
     }
-    setState(() { });
+
+    setState(() {
+
+    });
   }
 
   getStar(MovieModel movie){
@@ -145,8 +169,8 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
         child: Column(
           children: [
             for(var i = 0; i < bookedMovieHistory.length; i++)
-              if(bookedMovieHistory[i].date.day <= DateTime.now().day)
-                if(int.parse(bookedMovieHistory[i].timeAndVenue.time.substring(0,2)) >= DateTime.now().hour)
+              if(bookedMovieHistory[i].date.day >= DateTime.now().day)
+                // if(int.parse(bookedMovieHistory[i].timeAndVenue.time.substring(0,2)) >= DateTime.now().hour)
               InkWell(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => TicketDetailPage(ticket: bookedMovieHistory[i], user: widget.user)));
@@ -208,8 +232,8 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
         child: Column(
           children: [
             for(var i = 0; i < bookedMovieHistory.length; i++)
-              if(bookedMovieHistory[i].date.day >= DateTime.now().day)
-                if(int.parse(bookedMovieHistory[i].timeAndVenue.time.substring(0,2)) <= DateTime.now().hour)
+              if(bookedMovieHistory[i].date.day <= DateTime.now().day)
+                // if(int.parse(bookedMovieHistory[i].timeAndVenue.time.substring(0,2)) <= DateTime.now().hour)
                   InkWell(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => TicketDetailPage(ticket: bookedMovieHistory[i], user: widget.user)));

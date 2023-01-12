@@ -43,9 +43,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   void initState() {
-    emailController.text = widget.user.email;
+    emailController.text = widget.user.email!;
     userIdController.text = 'BtYeiscnbhfdFSDIULowWQENV';
-    nameController.text = widget.user.name;
+    nameController.text = widget.user.name!;
     imageFile = widget.user.photoProfile;
     tmpName = nameController.text;
     super.initState();

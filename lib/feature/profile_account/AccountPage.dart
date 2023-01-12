@@ -2,6 +2,7 @@ import 'package:flutix_app/feature/profile_account/EditProfilePage.dart';
 import 'package:flutix_app/feature/splash_screen/view/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/HistoryTransactions.dart';
 import '../../model/User.dart';
@@ -31,6 +32,14 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    removeData() async{
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove('name');
+      prefs.remove('email');
+      prefs.remove('password');
+      prefs.remove('saldo');
+      prefs.remove('historyTrn');
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -145,6 +154,7 @@ class _AccountPageState extends State<AccountPage> {
                  SizedBox(height: 16,),
                  InkWell(
                    onTap: (){
+                     removeData();
                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SplashScreen()), (route) => false);
                    },
                    child: Row(

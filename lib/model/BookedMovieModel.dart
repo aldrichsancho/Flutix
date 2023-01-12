@@ -12,4 +12,5 @@ class BookedMovieModel{
   ChooseDateModel date;
 
   BookedMovieModel({required this.movie, required this.seat, required this.timeAndVenue, required this.total, required this.date});
+
 }
