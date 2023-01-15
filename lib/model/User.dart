@@ -5,13 +5,15 @@ class User {
   String? email;
   String? password;
   File? photoProfile;
+  double? saldo;
 
-  User({required this.name, required this.email, required this.password, this.photoProfile});
+  User({this.name, this.email, this.password, this.photoProfile});
 
   User.fromJson(Map<String, dynamic> json) {
     name = json['name'] ?? '';
     email = json['email'] ?? '';
     password = json['password'] ?? '';
+    saldo = json['saldo'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class User {
     data['name'] = this.name;
     data['email'] = this.email;
     data['password'] = this.password;
+    data['saldo'] = this.saldo;
     return data;
   }
 }

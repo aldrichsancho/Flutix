@@ -1,4 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutix_app/feature/splash_screen/view/SignUp.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../model/User.dart';
+import '../../main_menu/view/MainMenuPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,6 +22,44 @@ class _LoginPageState extends State<LoginPage> {
 
   bool validEmail = false;
   bool passwordLengthMoreThan5 = false;
+
+  checkAccount() async {
+    final prefs = await SharedPreferences.getInstance();
+    var listUserString = prefs.getStringList('listUser');
+
+    if(listUserString == null){
+      return;
+    }
+    else{
+      List<User> users = [];
+      listUserString.forEach((user) {
+        var temp = User.fromJson(json.decode(user));
+        users.add(temp);
+      });
+
+      User existUser = User();
+      try{
+        existUser = users.singleWhere((user) => user.email == emailController.text);
+      }
+      catch(e){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Invalid Email or Password"),
+          elevation: 0,
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color(0XFFFE5981),
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 78),
+        ));
+      }
+
+      if(existUser.email == emailController.text && existUser.password == passwordController.text){
+        return existUser;
+      }
+      else{
+       return;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20,),
               TextFormField(
+                obscureText: true,
                 controller: passwordController,
                 focusNode: passwordFocusNode,
                 onChanged: (value){
@@ -110,7 +156,22 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: (){},
+                    onTap: () async{
+                      var existUser = await checkAccount();
+                      if(existUser == null){ //fail
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Invalid Email or Password"),
+                          elevation: 0,
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Color(0XFFFE5981),
+                          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 78),
+                        ));
+                      }
+                      else{
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainMenuPage(user: existUser, newSaldo: existUser.saldo, tabController: null, newBookedMovieHistory: [], newHistoryTransactions: [],)), (route) => false);
+                      }
+                    },
                     child: CircleAvatar(
                       backgroundColor: validEmail && passwordLengthMoreThan5 ? Color(0XFF4F3E9C) : Color(0XFFE4E4E4),
                       minRadius: 25,
@@ -124,7 +185,12 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text('Start Fresh Now?', style: TextStyle(color: Color(0XFFAEAEAE), fontSize: 14),),
                   SizedBox(width: 4,),
-                  Text('Sign Up', style: TextStyle(color: Color(0XFF4F3E9C), fontSize: 14),)
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignUpPage()), (route) => false);
+                    },
+                      child: Text('Sign Up', style: TextStyle(color: Color(0XFF4F3E9C), fontSize: 14),)
+                  )
                 ],
               ),
             ],

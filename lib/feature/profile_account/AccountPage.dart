@@ -1,4 +1,5 @@
 import 'package:flutix_app/feature/profile_account/EditProfilePage.dart';
+import 'package:flutix_app/feature/splash_screen/view/Login.dart';
 import 'package:flutix_app/feature/splash_screen/view/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -155,7 +156,7 @@ class _AccountPageState extends State<AccountPage> {
                  InkWell(
                    onTap: (){
                      removeData();
-                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SplashScreen()), (route) => false);
+                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                    },
                    child: Row(
                      children: [

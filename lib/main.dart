@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutix_app/feature/splash_screen/view/Login.dart';
 import 'package:flutix_app/feature/splash_screen/view/SignUp.dart';
 import 'package:flutix_app/model/BookedMovieModel.dart';
 import 'package:flutix_app/model/HistoryTransactions.dart';
@@ -82,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainMenuPage(user: user, newSaldo: saldo, tabController: null, newBookedMovieHistory: [], newHistoryTransactions: historyTransactions,)), (route) => false);
       }
       else{
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignUpPage()), (route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
       }
 
   }

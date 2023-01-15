@@ -23,6 +23,41 @@ class _ConfirmNewAccountPageState extends State<ConfirmNewAccountPage> {
     prefs.setString('name', widget.userData!.name!);
     prefs.setString('email', widget.userData!.email!);
     prefs.setString('password', widget.userData!.password!);
+
+    User user = User(
+        name: widget.userData!.name!,
+        email: widget.userData!.email!,
+        password: widget.userData!.password!
+    );
+
+    String temp = json.encode(user);
+    List<String> users = [];
+    users.add(temp);
+
+    var tempUserList = prefs.getStringList('listUser');
+    if(tempUserList != null){
+      tempUserList.forEach((user) {
+        users.add(user); //tambah user lama
+      });
+    }
+    prefs.setStringList('listUser', users);
+
+
+    //simpan user agar bisa login kembali
+    //tambah data user baru ke dalam list -> get data user yang sudah pernah signUp dan masukan ke dalam list yang sama
+    //sekarang list berisikan user baru dan user lama
+    //simpan kembali list ini;
+    // List<String> users = [];
+    // users.add(widget.userData!.name!); //tambah pengguna baru ke list terlebih dahulu
+    //
+    // var tempUserList = prefs.getStringList('listUser');
+    // if(tempUserList != null){
+    //   tempUserList.forEach((user) {
+    //     users.add(user); //tambah user lama
+    //   });
+    // }
+    //
+    // prefs.setStringList('listUser', users);
   }
 
   @override

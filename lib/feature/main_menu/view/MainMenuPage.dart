@@ -92,6 +92,31 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('saldo', '${saldo}');
 
+    List<User> users = [];
+    var listUserString = prefs.getStringList('listUser');
+    listUserString!.forEach((user) {
+      var temp = User.fromJson(json.decode(user));
+      users.add(temp);
+    });
+
+    User existUser = users.singleWhere((user) => user.email == widget.user.email);
+
+    users.forEach((element) {
+      if(existUser.email == element.email){
+        element.saldo = saldo;
+      }
+    });
+    //
+    List<String> userString = [];
+    users.forEach((user){
+      userString.add(json.encode(user));
+    });
+    prefs.setStringList('listUser', userString);
+
+    var a = prefs.getStringList('listUser');
+    // var temp = json.encode(existUser);
+    // prefs.r
+
 
     List<String> historyTransactions = [];
     history.forEach((element) {
